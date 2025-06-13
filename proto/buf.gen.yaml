@@ -11,3 +11,7 @@ plugins:
   - name: go-aip-test
     out: gen
     opt: module=github.com/einride/protoc-gen-go-aip-test/proto/gen
+
+  - plugin: connect-go
+    out: gen
+    opt: module=github.com/einride/protoc-gen-go-aip-test/proto/gen

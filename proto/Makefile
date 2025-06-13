@@ -67,6 +67,10 @@ buf-generate-googleapis: $(sagefile)
 buf-lint: $(sagefile)
 	@$(sagefile) Proto:BufLint
 
+.PHONY: protoc-gen-connect-go
+protoc-gen-connect-go: $(sagefile)
+	@$(sagefile) Proto:ProtocGenConnectGo
+
 .PHONY: protoc-gen-go
 protoc-gen-go: $(sagefile)
 	@$(sagefile) Proto:ProtocGenGo
