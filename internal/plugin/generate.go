@@ -2,6 +2,7 @@ package plugin
 
 import (
 	"fmt"
+	"path"
 	"path/filepath"
 	"sort"
 
@@ -13,7 +14,8 @@ import (
 )
 
 const (
-	fileSuffix = "aiptest.pb.go"
+	fileSuffix           = "aiptest.pb.go"
+	defaultPackageSuffix = "connect"
 )
 
 func Generate(plugin *protogen.Plugin) error {
@@ -35,6 +37,7 @@ func collectServices(
 	plugin *protogen.Plugin,
 ) (map[protoreflect.FullName][]File, error) {
 	pkgResources := findResourcesPerPackage(plugin)
+	// TODO: Are these limits of "10" here (and below) arbitrary?
 	result := make(map[protoreflect.FullName][]File, 10)
 	for _, file := range plugin.Files {
 		if len(file.Services) == 0 || !file.Generate {
@@ -83,7 +86,6 @@ func collectServices(
 
 func generate(plugin *protogen.Plugin, filesPerPackage map[protoreflect.FullName][]File) error {
 	for _, files := range filesPerPackage {
-		generateForPackage(plugin, files)
 		for _, file := range files {
 			f := createServiceTestFile(plugin, file)
 			f.Skip()
@@ -94,12 +96,14 @@ func generate(plugin *protogen.Plugin, filesPerPackage map[protoreflect.FullName
 				f.Unskip()
 			}
 		}
+		generateForPackage(plugin, files)
 	}
 	return nil
 }
 
 func generateForPackage(plugin *protogen.Plugin, files []File) {
-	filename := filepath.Join(filepath.Dir(files[0].GeneratedFilenamePrefix), fileSuffix)
+	directoryName := getDirectoryName(files[0])
+	filename := filepath.Join(directoryName, fileSuffix)
 	f := plugin.NewGeneratedFile(filename, files[0].GoImportPath)
 	writeHeader(files[0].File, f)
 	generateServicesConfigProvidersInterface(f, files)
@@ -138,8 +142,44 @@ func generateTestAllServices(f *protogen.GeneratedFile, files []File) {
 	f.P()
 }
 
+// Produces a filename like: "proto/gen/einride/example/freight/v1/examplefreightv1connect/freight_service_aiptest.pb.go"
+func getFileName(file File) string {
+	// FYI The logic here (and for getDirectoryName) is heavily derived from the connect-go code that generates it's own filenames.
+	// Find it here: https://github.com/connectrpc/connect-go/blob/a34cd270cd7fee78df46cbd0afc4ab24d5eac2cf/cmd/protoc-gen-connect-go/main.go#L152
+
+	// Here we get the directory name and then add our new file suffix to the original filename.
+	generatedFilenamePrefixToSlash := filepath.ToSlash(file.GeneratedFilenamePrefix)
+	filename := path.Join(
+		getDirectoryName(file),
+		path.Base(generatedFilenamePrefixToSlash+"_"+fileSuffix),
+	)
+	return filename
+}
+
+// Produces a directory name like: "proto/gen/einride/example/freight/v1/examplefreightv1connect"
+func getDirectoryName(file File) string {
+	// generatedFilenamePrefix	:	"proto/gen/einride/example/freight/v1/freight_service"
+	// file.GoPackageName     	:	"examplefreightv1connect"
+
+	// We basically just chop off the the last part of the generatedFilenamePrefix and add the file.GoPackageName.
+	generatedFilenamePrefixToSlash := filepath.ToSlash(file.GeneratedFilenamePrefix)
+	directoryName := path.Join(
+		path.Dir(generatedFilenamePrefixToSlash),
+		string(file.GoPackageName),
+	)
+	return directoryName
+}
+
+func addConnectSuffix(file File) {
+	// TODO: This should technically be configurable, as this suffix is also configurable for connect-go.
+	packageSuffix := defaultPackageSuffix
+	file.GoPackageName = file.GoPackageName + protogen.GoPackageName(packageSuffix)
+	file.GoImportPath = protogen.GoImportPath(getDirectoryName(file))
+}
+
 func createServiceTestFile(plugin *protogen.Plugin, file File) *protogen.GeneratedFile {
-	filename := fmt.Sprintf("%s_%s", file.GeneratedFilenamePrefix, fileSuffix)
+	addConnectSuffix(file)
+	filename := getFileName(file)
 	f := plugin.NewGeneratedFile(filename, file.GoImportPath)
 	writeHeader(file.File, f)
 	return f
