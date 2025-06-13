@@ -3,6 +3,8 @@
 Generate test suites for protobuf services implementing
 [standard AIP methods](https://google.aip.dev/121#methods).
 
+**This is a fork that adds [Connect RPC](https://connectrpc.com/) support.** The upstream generates tests for gRPC servers, while this fork generates tests for Connect RPC clients. This allows testing APIs that use Connect's simpler HTTP/JSON protocol instead of traditional gRPC.
+
 The generated test suites are based on guidance for standard methods, and
 experience from implementing these methods in practice. See [Suites](#suites)
 for a list of the generated tests.
@@ -31,17 +33,21 @@ service FreightService {
 
 ### Step 2: Install the generator
 
-Either install using `go install`:
+Install using Nix (recommended):
 
 ```bash
-go install github.com/einride/protoc-gen-go-aip-test@latest
+nix build github:bndry-co/protoc-gen-go-aip-test
 ```
 
-Or download a prebuilt binary from
-[releases](https://github.com/einride/protoc-gen-go-aip-test/releases) and put
-it in your PATH.
+Or build from source:
 
-The generator can also be built from source using Go.
+```bash
+git clone https://github.com/bndry-co/protoc-gen-go-aip-test.git
+cd protoc-gen-go-aip-test
+go build -o protoc-gen-go-aip-test .
+```
+
+Note: This Connect fork is not available via `go install` due to module path differences.
 
 ### Step 3: Generate test suites
 
@@ -71,17 +77,17 @@ package example
 
 func Test_FreightService(t *testing.T) {
 	t.Skip("this is just an example, the service is not implemented.")
-	// setup server before test
-	server := examplefreightv1.UnimplementedFreightServiceServer{}
-	// setup test suite
-	suite := examplefreightv1.FreightServiceTestSuite{
+	// setup Connect client before test
+	client := examplefreightv1connect.UnimplementedFreightServiceHandler{}
+	// setup test suite  
+	suite := examplefreightv1connect.FreightServiceTestSuite{
 		T:      t,
-		Server: server,
+		Client: client,
 	}
 
 	// run tests for each resource in the service
 	ctx := context.Background()
-	suite.TestShipper(ctx, examplefreightv1.ShipperTestSuiteConfig{
+	suite.TestShipper(ctx, examplefreightv1connect.FreightServiceShipperTestSuiteConfig{
 		// Create should return a resource which is valid to create, i.e.
 		// all required fields set.
 		Create: func() *examplefreightv1.Shipper {
@@ -106,9 +112,9 @@ func Test_FreightService(t *testing.T) {
 
 Implement the generated configure provider interface
 (`FreightServiceTestSuiteConfigProvider`) and pass the implementation to
-`TestServices` to start the tests.
+`testFreightService` to start the tests.
 
-A benefit of using `TestServices` (over alternative 1) is that as new services
+A benefit of using `testFreightService` (over alternative 1) is that as new services
 or resources are added to the API the test code won't compile until the required
 inputs are also added (or explicitly ignored). This makes it harder to forget to
 add the test implementations for new services/resources.
@@ -120,19 +126,19 @@ import "testing"
 
 func Test_FreightService(t *testing.T) {
 	// Even though no implementation exists, the tests will pass but be skipped.
-	examplefreightv1.TestServices(t, &aipTests{})
+	examplefreightv1connect.testFreightService(t, &aipTests{})
 }
 
 type aipTests struct{}
 
-var _ examplefreightv1.FreightServiceTestSuiteConfigProvider = &aipTests{}
+var _ examplefreightv1connect.FreightServiceTestSuiteConfigProvider = &aipTests{}
 
-func (a aipTests) FreightServiceShipper(_ *testing.T) *examplefreightv1.FreightServiceShipperTestSuiteConfig {
+func (a aipTests) FreightServiceShipper(_ *testing.T) *examplefreightv1connect.FreightServiceShipperTestSuiteConfig {
 	// Returns nil to indicate that it's not ready to be tested.
 	return nil
 }
 
-func (a aipTests) FreightServiceSite(_ *testing.T) *examplefreightv1.FreightServiceSiteTestSuiteConfig {
+func (a aipTests) FreightServiceSite(_ *testing.T) *examplefreightv1connect.FreightServiceSiteTestSuiteConfig {
 	// Returns nil to indicate that it's not ready to be tested.
 	return nil
 }
