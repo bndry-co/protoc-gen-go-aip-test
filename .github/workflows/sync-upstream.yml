@@ -31,8 +31,7 @@ jobs:
       
       - name: Update master branch
         run: |
-          git checkout master
-          git pull upstream master
+          git checkout -B master upstream/master
           git push origin master
       
       - name: Rebase connectrpc branch
