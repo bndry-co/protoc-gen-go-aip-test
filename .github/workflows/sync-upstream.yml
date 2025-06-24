@@ -43,13 +43,27 @@ jobs:
           echo "rebase_success=true" >> $GITHUB_OUTPUT
         continue-on-error: true
       
-      - name: Push rebased connectrpc branch
+      - name: Setup Sage
         if: steps.rebase.outputs.rebase_success == 'true'
+        uses: einride/sage/actions/setup@master
+        with:
+          go-version: "1.23"
+      
+      - name: Run CI checks
+        if: steps.rebase.outputs.rebase_success == 'true'
+        id: ci_checks
+        run: |
+          make
+          echo "ci_success=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Push rebased connectrpc branch
+        if: steps.rebase.outputs.rebase_success == 'true' && steps.ci_checks.outputs.ci_success == 'true'
         run: |
           git push origin connectrpc --force-with-lease
       
       - name: Create issue on rebase conflict
-        if: steps.rebase.outputs.rebase_success != 'true'
+        if: steps.rebase.outputs.rebase_success != 'true' || steps.ci_checks.outputs.ci_success != 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -61,25 +75,46 @@ jobs:
             });
             
             if (issues.length === 0) {
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: 'Manual intervention required: upstream sync conflict',
-                body: `The automated rebase of \`connectrpc\` branch onto \`master\` failed due to merge conflicts.
+              const rebaseSuccess = '${{ steps.rebase.outputs.rebase_success }}' === 'true';
+              const ciSuccess = '${{ steps.ci_checks.outputs.ci_success }}' === 'true';
+              
+              let title, body;
+              if (!rebaseSuccess) {
+                title = 'Manual intervention required: upstream sync conflict';
+                body = `The automated rebase of \`connectrpc\` branch onto \`master\` failed due to merge conflicts.
                 
                 **Manual steps required:**
                 1. \`git checkout connectrpc\`
                 2. \`git rebase master\`
                 3. Resolve conflicts manually
+                4. \`make\` (verify CI passes)
+                5. \`git push origin connectrpc --force-with-lease\`
+                
+                This issue will auto-close on the next successful sync.`;
+              } else {
+                title = 'Manual intervention required: CI checks failed after rebase';
+                body = `The automated rebase of \`connectrpc\` branch onto \`master\` succeeded, but CI checks failed.
+                
+                **Manual steps required:**
+                1. \`git checkout connectrpc\`
+                2. Fix any issues causing CI failures
+                3. \`make\` (verify CI passes)
                 4. \`git push origin connectrpc --force-with-lease\`
                 
-                This issue will auto-close on the next successful sync.`,
+                This issue will auto-close on the next successful sync.`;
+              }
+              
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
                 labels: ['upstream-sync-conflict', 'needs-attention']
               });
             }
       
       - name: Close existing conflict issues on success
-        if: steps.rebase.outputs.rebase_success == 'true'
+        if: steps.rebase.outputs.rebase_success == 'true' && steps.ci_checks.outputs.ci_success == 'true'
         uses: actions/github-script@v7
         with:
           script: |
