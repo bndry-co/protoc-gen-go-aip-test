@@ -61,6 +61,8 @@ func (m MethodCreate) Generate(f *protogen.GeneratedFile, response, err, assign 
 
 	f.P("}))")
 	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, createResp != nil)")
 		f.P(response, assign, "createResp.Msg")
 	}
 }
@@ -81,6 +83,8 @@ func (m MethodGet) Generate(f *protogen.GeneratedFile, response, err, assign str
 	f.P("Name: ", m.Name, ",")
 	f.P("}))")
 	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, getResp != nil)")
 		f.P(response, assign, "getResp.Msg")
 	}
 }
@@ -109,6 +113,8 @@ func (m MethodBatchGet) Generate(f *protogen.GeneratedFile, response, err, assig
 	f.P("},")
 	f.P("}))")
 	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, batchGetResp != nil)")
 		f.P(response, assign, "batchGetResp.Msg")
 	}
 }
@@ -184,6 +190,8 @@ func (m MethodUpdate) Generate(f *protogen.GeneratedFile, response, err, assign 
 	}
 	f.P("}))")
 	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, updateResp != nil)")
 		f.P(response, assign, "updateResp.Msg")
 	}
 }
@@ -214,6 +222,8 @@ func (m MethodList) Generate(f *protogen.GeneratedFile, response, err, assign st
 	}
 	f.P("}))")
 	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, listResp != nil)")
 		f.P(response, assign, "listResp.Msg")
 	}
 }
@@ -244,6 +254,8 @@ func (m MethodSearch) Generate(f *protogen.GeneratedFile, response, err, assign 
 	}
 	f.P("}))")
 	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, searchResp != nil)")
 		f.P(response, assign, "searchResp.Msg")
 	}
 }
@@ -281,6 +293,8 @@ func (m MethodDelete) Generate(f *protogen.GeneratedFile, response, err, assign 
 	}
 	f.P("}))")
 	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, deleteResp != nil)")
 		f.P(response, assign, "deleteResp.Msg")
 	}
 }

@@ -114,6 +114,8 @@ func (fx *SpannerSessionTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetSession(fx.Context(), connect.NewRequest(&spannerpb.GetSessionRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -191,6 +193,8 @@ func (fx *SpannerSessionTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteSession(fx.Context(), connect.NewRequest(&spannerpb.DeleteSessionRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted

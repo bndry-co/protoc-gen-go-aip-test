@@ -337,6 +337,8 @@ func (fx *InstanceAdminInstanceTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetInstance(fx.Context(), connect.NewRequest(&instancepb.GetInstanceRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -560,6 +562,8 @@ func (fx *InstanceAdminInstanceTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -580,6 +584,8 @@ func (fx *InstanceAdminInstanceTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -592,6 +598,8 @@ func (fx *InstanceAdminInstanceTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -608,6 +616,8 @@ func (fx *InstanceAdminInstanceTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Instances))
@@ -642,6 +652,8 @@ func (fx *InstanceAdminInstanceTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -675,6 +687,8 @@ func (fx *InstanceAdminInstanceTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Instances...)
@@ -747,6 +761,8 @@ func (fx *InstanceAdminInstanceTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteInstance(fx.Context(), connect.NewRequest(&instancepb.DeleteInstanceRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -907,6 +923,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetInstanceConfig(fx.Context(), connect.NewRequest(&instancepb.GetInstanceConfigRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -983,6 +1001,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateInstanceConfig(fx.Context(), connect.NewRequest(&instancepb.UpdateInstanceConfigRequest{
 			InstanceConfig: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		_ = updated
@@ -1068,6 +1088,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1088,6 +1110,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1100,6 +1124,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1116,6 +1142,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.InstanceConfigs))
@@ -1150,6 +1178,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1183,6 +1213,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.InstanceConfigs...)
@@ -1255,6 +1287,8 @@ func (fx *InstanceAdminInstanceConfigTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteInstanceConfig(fx.Context(), connect.NewRequest(&instancepb.DeleteInstanceConfigRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1481,6 +1515,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetInstancePartition(fx.Context(), connect.NewRequest(&instancepb.GetInstancePartitionRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1557,6 +1593,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testUpdate(t *testing.T
 		updateResp, err := fx.Service().UpdateInstancePartition(fx.Context(), connect.NewRequest(&instancepb.UpdateInstancePartitionRequest{
 			InstancePartition: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		_ = updated
@@ -1676,6 +1714,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testList(t *testing.T) 
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1696,6 +1736,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testList(t *testing.T) 
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1708,6 +1750,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testList(t *testing.T) 
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1724,6 +1768,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testList(t *testing.T) 
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.InstancePartitions))
@@ -1758,6 +1804,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testList(t *testing.T) 
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1791,6 +1839,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testList(t *testing.T) 
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.InstancePartitions...)
@@ -1863,6 +1913,8 @@ func (fx *InstanceAdminInstancePartitionTestSuiteConfig) testDelete(t *testing.T
 		deleteResp, err := fx.Service().DeleteInstancePartition(fx.Context(), connect.NewRequest(&instancepb.DeleteInstancePartitionRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted

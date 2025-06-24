@@ -182,6 +182,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetIndex(fx.Context(), connect.NewRequest(&aiplatformpb.GetIndexRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -258,6 +260,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateIndex(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateIndexRequest{
 			Index: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		_ = updated
@@ -387,6 +391,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -407,6 +413,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -419,6 +427,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -435,6 +445,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Indexes))
@@ -469,6 +481,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -502,6 +516,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Indexes...)
@@ -574,6 +590,8 @@ func (fx *IndexServiceIndexTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteIndex(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteIndexRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted

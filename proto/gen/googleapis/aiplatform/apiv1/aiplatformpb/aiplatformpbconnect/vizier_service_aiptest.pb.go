@@ -145,6 +145,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testCreate(t *testing.T) {
 			Parent: parent,
 			Study:  fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -160,11 +162,15 @@ func (fx *VizierServiceStudyTestSuiteConfig) testCreate(t *testing.T) {
 			Parent: parent,
 			Study:  fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetStudy(fx.Context(), connect.NewRequest(&aiplatformpb.GetStudyRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -270,6 +276,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetStudy(fx.Context(), connect.NewRequest(&aiplatformpb.GetStudyRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -346,6 +354,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -366,6 +376,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -378,6 +390,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -394,6 +408,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Studies))
@@ -428,6 +444,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -461,6 +479,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Studies...)
@@ -533,6 +553,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteStudy(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteStudyRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -585,6 +607,8 @@ func (fx *VizierServiceStudyTestSuiteConfig) create(t *testing.T, parent string)
 		Parent: parent,
 		Study:  fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -651,11 +675,15 @@ func (fx *VizierServiceTrialTestSuiteConfig) testCreate(t *testing.T) {
 			Parent: parent,
 			Trial:  fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetTrial(fx.Context(), connect.NewRequest(&aiplatformpb.GetTrialRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -691,6 +719,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetTrial(fx.Context(), connect.NewRequest(&aiplatformpb.GetTrialRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -767,6 +797,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -787,6 +819,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -799,6 +833,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -815,6 +851,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Trials))
@@ -849,6 +887,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -882,6 +922,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Trials...)
@@ -954,6 +996,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteTrial(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteTrialRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1006,6 +1050,8 @@ func (fx *VizierServiceTrialTestSuiteConfig) create(t *testing.T, parent string)
 		Parent: parent,
 		Trial:  fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created

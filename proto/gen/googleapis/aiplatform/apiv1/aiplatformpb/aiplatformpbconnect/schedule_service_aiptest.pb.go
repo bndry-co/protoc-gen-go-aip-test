@@ -124,6 +124,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:   parent,
 			Schedule: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -139,11 +141,15 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:   parent,
 			Schedule: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetSchedule(fx.Context(), connect.NewRequest(&aiplatformpb.GetScheduleRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -317,6 +323,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetSchedule(fx.Context(), connect.NewRequest(&aiplatformpb.GetScheduleRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -378,6 +386,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateSchedule(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateScheduleRequest{
 			Schedule: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -391,11 +401,15 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateSchedule(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateScheduleRequest{
 			Schedule: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetSchedule(fx.Context(), connect.NewRequest(&aiplatformpb.GetScheduleRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -415,6 +429,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testUpdate(t *testing.T) {
 				},
 			},
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, originalCreateTime, updated.CreateTime, protocmp.Transform())
@@ -620,6 +636,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -640,6 +658,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -652,6 +672,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -668,6 +690,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Schedules))
@@ -702,6 +726,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -735,6 +761,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Schedules...)
@@ -807,6 +835,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteSchedule(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteScheduleRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -859,6 +889,8 @@ func (fx *ScheduleServiceScheduleTestSuiteConfig) create(t *testing.T, parent st
 		Parent:   parent,
 		Schedule: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created

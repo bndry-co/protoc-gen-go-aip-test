@@ -176,6 +176,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetModel(fx.Context(), connect.NewRequest(&aiplatformpb.GetModelRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -237,11 +239,15 @@ func (fx *ModelServiceModelTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateModel(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateModelRequest{
 			Model: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetModel(fx.Context(), connect.NewRequest(&aiplatformpb.GetModelRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -261,6 +267,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testUpdate(t *testing.T) {
 				},
 			},
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, originalCreateTime, updated.CreateTime, protocmp.Transform())
@@ -291,6 +299,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateModel(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateModelRequest{
 			Model: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -553,6 +563,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -573,6 +585,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -585,6 +599,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -601,6 +617,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Models))
@@ -635,6 +653,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -668,6 +688,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Models...)
@@ -740,6 +762,8 @@ func (fx *ModelServiceModelTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteModel(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteModelRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -856,6 +880,8 @@ func (fx *ModelServiceModelEvaluationTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetModelEvaluation(fx.Context(), connect.NewRequest(&aiplatformpb.GetModelEvaluationRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -932,6 +958,8 @@ func (fx *ModelServiceModelEvaluationTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -952,6 +980,8 @@ func (fx *ModelServiceModelEvaluationTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -964,6 +994,8 @@ func (fx *ModelServiceModelEvaluationTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -980,6 +1012,8 @@ func (fx *ModelServiceModelEvaluationTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.ModelEvaluations))
@@ -1020,6 +1054,8 @@ func (fx *ModelServiceModelEvaluationTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.ModelEvaluations...)
@@ -1138,6 +1174,8 @@ func (fx *ModelServiceModelEvaluationSliceTestSuiteConfig) testGet(t *testing.T)
 		getResp, err := fx.Service().GetModelEvaluationSlice(fx.Context(), connect.NewRequest(&aiplatformpb.GetModelEvaluationSliceRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1214,6 +1252,8 @@ func (fx *ModelServiceModelEvaluationSliceTestSuiteConfig) testList(t *testing.T
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1234,6 +1274,8 @@ func (fx *ModelServiceModelEvaluationSliceTestSuiteConfig) testList(t *testing.T
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1246,6 +1288,8 @@ func (fx *ModelServiceModelEvaluationSliceTestSuiteConfig) testList(t *testing.T
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1262,6 +1306,8 @@ func (fx *ModelServiceModelEvaluationSliceTestSuiteConfig) testList(t *testing.T
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.ModelEvaluationSlices))
@@ -1302,6 +1348,8 @@ func (fx *ModelServiceModelEvaluationSliceTestSuiteConfig) testList(t *testing.T
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.ModelEvaluationSlices...)

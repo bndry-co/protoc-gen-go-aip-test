@@ -219,6 +219,8 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetBackup(fx.Context(), connect.NewRequest(&databasepb.GetBackupRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -280,11 +282,15 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateBackup(fx.Context(), connect.NewRequest(&databasepb.UpdateBackupRequest{
 			Backup: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetBackup(fx.Context(), connect.NewRequest(&databasepb.GetBackupRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -370,6 +376,8 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -390,6 +398,8 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -402,6 +412,8 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -418,6 +430,8 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Backups))
@@ -452,6 +466,8 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -485,6 +501,8 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Backups...)
@@ -557,6 +575,8 @@ func (fx *DatabaseAdminBackupTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteBackup(fx.Context(), connect.NewRequest(&databasepb.DeleteBackupRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -673,6 +693,8 @@ func (fx *DatabaseAdminDatabaseTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetDatabase(fx.Context(), connect.NewRequest(&databasepb.GetDatabaseRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -831,6 +853,8 @@ func (fx *DatabaseAdminDatabaseTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -851,6 +875,8 @@ func (fx *DatabaseAdminDatabaseTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -863,6 +889,8 @@ func (fx *DatabaseAdminDatabaseTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -879,6 +907,8 @@ func (fx *DatabaseAdminDatabaseTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Databases))
@@ -919,6 +949,8 @@ func (fx *DatabaseAdminDatabaseTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Databases...)
@@ -1057,6 +1089,8 @@ func (fx *DatabaseAdminDatabaseRoleTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1077,6 +1111,8 @@ func (fx *DatabaseAdminDatabaseRoleTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1089,6 +1125,8 @@ func (fx *DatabaseAdminDatabaseRoleTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1105,6 +1143,8 @@ func (fx *DatabaseAdminDatabaseRoleTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.DatabaseRoles))
@@ -1145,6 +1185,8 @@ func (fx *DatabaseAdminDatabaseRoleTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.DatabaseRoles...)

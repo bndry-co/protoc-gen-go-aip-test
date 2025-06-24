@@ -264,6 +264,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetTensorboard(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -340,6 +342,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testUpdate(t *testing.T)
 		updateResp, err := fx.Service().UpdateTensorboard(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardRequest{
 			Tensorboard: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		_ = updated
@@ -469,6 +473,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -489,6 +495,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -501,6 +509,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -517,6 +527,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Tensorboards))
@@ -551,6 +563,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -584,6 +598,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Tensorboards...)
@@ -656,6 +672,8 @@ func (fx *TensorboardServiceTensorboardTestSuiteConfig) testDelete(t *testing.T)
 		deleteResp, err := fx.Service().DeleteTensorboard(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteTensorboardRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -774,6 +792,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testCreate(t *
 			Parent:                parent,
 			TensorboardExperiment: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -789,11 +809,15 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testCreate(t *
 			Parent:                parent,
 			TensorboardExperiment: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetTensorboardExperiment(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardExperimentRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -807,6 +831,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testCreate(t *
 			Parent:                parent,
 			TensorboardExperiment: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -842,6 +868,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testGet(t *tes
 		getResp, err := fx.Service().GetTensorboardExperiment(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardExperimentRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -903,6 +931,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testUpdate(t *
 		updateResp, err := fx.Service().UpdateTensorboardExperiment(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardExperimentRequest{
 			TensorboardExperiment: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -916,11 +946,15 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testUpdate(t *
 		updateResp, err := fx.Service().UpdateTensorboardExperiment(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardExperimentRequest{
 			TensorboardExperiment: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetTensorboardExperiment(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardExperimentRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -951,6 +985,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testUpdate(t *
 		updateResp, err := fx.Service().UpdateTensorboardExperiment(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardExperimentRequest{
 			TensorboardExperiment: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -1036,6 +1072,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testList(t *te
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1056,6 +1094,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testList(t *te
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1068,6 +1108,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testList(t *te
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1084,6 +1126,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testList(t *te
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.TensorboardExperiments))
@@ -1118,6 +1162,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testList(t *te
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1151,6 +1197,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testList(t *te
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.TensorboardExperiments...)
@@ -1223,6 +1271,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) testDelete(t *
 		deleteResp, err := fx.Service().DeleteTensorboardExperiment(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteTensorboardExperimentRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1275,6 +1325,8 @@ func (fx *TensorboardServiceTensorboardExperimentTestSuiteConfig) create(t *test
 		Parent:                parent,
 		TensorboardExperiment: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -1346,6 +1398,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testCreate(t *testing
 			Parent:         parent,
 			TensorboardRun: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -1361,11 +1415,15 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testCreate(t *testing
 			Parent:         parent,
 			TensorboardRun: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetTensorboardRun(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardRunRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -1401,6 +1459,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testCreate(t *testing
 			Parent:         parent,
 			TensorboardRun: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -1436,6 +1496,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testGet(t *testing.T)
 		getResp, err := fx.Service().GetTensorboardRun(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardRunRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1497,6 +1559,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testUpdate(t *testing
 		updateResp, err := fx.Service().UpdateTensorboardRun(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardRunRequest{
 			TensorboardRun: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -1510,11 +1574,15 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testUpdate(t *testing
 		updateResp, err := fx.Service().UpdateTensorboardRun(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardRunRequest{
 			TensorboardRun: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetTensorboardRun(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardRunRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -1534,6 +1602,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testUpdate(t *testing
 				},
 			},
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, originalCreateTime, updated.CreateTime, protocmp.Transform())
@@ -1564,6 +1634,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testUpdate(t *testing
 		updateResp, err := fx.Service().UpdateTensorboardRun(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardRunRequest{
 			TensorboardRun: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -1674,6 +1746,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testList(t *testing.T
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1694,6 +1768,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testList(t *testing.T
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1706,6 +1782,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testList(t *testing.T
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1722,6 +1800,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testList(t *testing.T
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.TensorboardRuns))
@@ -1756,6 +1836,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testList(t *testing.T
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1789,6 +1871,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testList(t *testing.T
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.TensorboardRuns...)
@@ -1861,6 +1945,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) testDelete(t *testing
 		deleteResp, err := fx.Service().DeleteTensorboardRun(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteTensorboardRunRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1913,6 +1999,8 @@ func (fx *TensorboardServiceTensorboardRunTestSuiteConfig) create(t *testing.T, 
 		Parent:         parent,
 		TensorboardRun: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -1984,6 +2072,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testCreate(t *
 			Parent:                parent,
 			TensorboardTimeSeries: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -1999,11 +2089,15 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testCreate(t *
 			Parent:                parent,
 			TensorboardTimeSeries: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetTensorboardTimeSeries(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardTimeSeriesRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -2055,6 +2149,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testCreate(t *
 			Parent:                parent,
 			TensorboardTimeSeries: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -2090,6 +2186,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testGet(t *tes
 		getResp, err := fx.Service().GetTensorboardTimeSeries(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardTimeSeriesRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -2151,6 +2249,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testUpdate(t *
 		updateResp, err := fx.Service().UpdateTensorboardTimeSeries(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardTimeSeriesRequest{
 			TensorboardTimeSeries: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -2164,11 +2264,15 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testUpdate(t *
 		updateResp, err := fx.Service().UpdateTensorboardTimeSeries(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardTimeSeriesRequest{
 			TensorboardTimeSeries: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetTensorboardTimeSeries(fx.Context(), connect.NewRequest(&aiplatformpb.GetTensorboardTimeSeriesRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -2188,6 +2292,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testUpdate(t *
 				},
 			},
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, originalCreateTime, updated.CreateTime, protocmp.Transform())
@@ -2218,6 +2324,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testUpdate(t *
 		updateResp, err := fx.Service().UpdateTensorboardTimeSeries(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateTensorboardTimeSeriesRequest{
 			TensorboardTimeSeries: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -2328,6 +2436,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testList(t *te
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -2348,6 +2458,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testList(t *te
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -2360,6 +2472,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testList(t *te
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -2376,6 +2490,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testList(t *te
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.TensorboardTimeSeries))
@@ -2410,6 +2526,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testList(t *te
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -2443,6 +2561,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testList(t *te
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.TensorboardTimeSeries...)
@@ -2515,6 +2635,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) testDelete(t *
 		deleteResp, err := fx.Service().DeleteTensorboardTimeSeries(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteTensorboardTimeSeriesRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -2567,6 +2689,8 @@ func (fx *TensorboardServiceTensorboardTimeSeriesTestSuiteConfig) create(t *test
 		Parent:                parent,
 		TensorboardTimeSeries: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created

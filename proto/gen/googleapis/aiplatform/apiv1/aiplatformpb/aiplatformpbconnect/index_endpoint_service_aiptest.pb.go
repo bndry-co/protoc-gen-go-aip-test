@@ -198,6 +198,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testGet(t *testing.T
 		getResp, err := fx.Service().GetIndexEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.GetIndexEndpointRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -259,11 +261,15 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testUpdate(t *testin
 		updateResp, err := fx.Service().UpdateIndexEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateIndexEndpointRequest{
 			IndexEndpoint: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetIndexEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.GetIndexEndpointRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -283,6 +289,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testUpdate(t *testin
 				},
 			},
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, originalCreateTime, updated.CreateTime, protocmp.Transform())
@@ -313,6 +321,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testUpdate(t *testin
 		updateResp, err := fx.Service().UpdateIndexEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateIndexEndpointRequest{
 			IndexEndpoint: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -461,6 +471,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testList(t *testing.
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -481,6 +493,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testList(t *testing.
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -493,6 +507,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testList(t *testing.
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -509,6 +525,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testList(t *testing.
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.IndexEndpoints))
@@ -543,6 +561,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testList(t *testing.
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -576,6 +596,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testList(t *testing.
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.IndexEndpoints...)
@@ -648,6 +670,8 @@ func (fx *IndexEndpointServiceIndexEndpointTestSuiteConfig) testDelete(t *testin
 		deleteResp, err := fx.Service().DeleteIndexEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteIndexEndpointRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted

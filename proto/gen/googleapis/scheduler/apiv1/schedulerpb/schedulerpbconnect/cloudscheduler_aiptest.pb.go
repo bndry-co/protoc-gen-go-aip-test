@@ -121,11 +121,15 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent: parent,
 			Job:    fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetJob(fx.Context(), connect.NewRequest(&schedulerpb.GetJobRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -182,6 +186,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetJob(fx.Context(), connect.NewRequest(&schedulerpb.GetJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -243,11 +249,15 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateJob(fx.Context(), connect.NewRequest(&schedulerpb.UpdateJobRequest{
 			Job: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetJob(fx.Context(), connect.NewRequest(&schedulerpb.GetJobRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -333,6 +343,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -353,6 +365,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -365,6 +379,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -381,6 +397,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Jobs))
@@ -415,6 +433,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -448,6 +468,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Jobs...)
@@ -520,6 +542,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteJob(fx.Context(), connect.NewRequest(&schedulerpb.DeleteJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -572,6 +596,8 @@ func (fx *CloudSchedulerJobTestSuiteConfig) create(t *testing.T, parent string) 
 		Parent: parent,
 		Job:    fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created

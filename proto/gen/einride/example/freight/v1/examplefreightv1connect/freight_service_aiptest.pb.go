@@ -133,6 +133,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) testCreate(t *testing.T) {
 			Shipper:   fx.Create(),
 			ShipperId: userSetID,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -151,11 +153,15 @@ func (fx *FreightServiceShipperTestSuiteConfig) testCreate(t *testing.T) {
 			Shipper:   fx.Create(),
 			ShipperId: userSetID,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetShipper(fx.Context(), connect.NewRequest(&v1.GetShipperRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -169,6 +175,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) testCreate(t *testing.T) {
 			Shipper:   fx.Create(),
 			ShipperId: "usersetid",
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, strings.HasSuffix(msg.GetName(), "usersetid"))
@@ -321,6 +329,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) testCreate(t *testing.T) {
 			Shipper:   fx.Create(),
 			ShipperId: userSetID,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -355,6 +365,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetShipper(fx.Context(), connect.NewRequest(&v1.GetShipperRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -386,11 +398,15 @@ func (fx *FreightServiceShipperTestSuiteConfig) testGet(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteShipper(fx.Context(), connect.NewRequest(&v1.DeleteShipperRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetShipper(fx.Context(), connect.NewRequest(&v1.GetShipperRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, deleted, protocmp.Transform())
@@ -429,6 +445,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateShipper(fx.Context(), connect.NewRequest(&v1.UpdateShipperRequest{
 			Shipper: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -441,11 +459,15 @@ func (fx *FreightServiceShipperTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateShipper(fx.Context(), connect.NewRequest(&v1.UpdateShipperRequest{
 			Shipper: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetShipper(fx.Context(), connect.NewRequest(&v1.GetShipperRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -464,6 +486,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) testUpdate(t *testing.T) {
 				},
 			},
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, originalCreateTime, updated.CreateTime, protocmp.Transform())
@@ -492,6 +516,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateShipper(fx.Context(), connect.NewRequest(&v1.UpdateShipperRequest{
 			Shipper: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -640,6 +666,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteShipper(fx.Context(), connect.NewRequest(&v1.DeleteShipperRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -689,6 +717,8 @@ func (fx *FreightServiceShipperTestSuiteConfig) create(t *testing.T) *v1.Shipper
 		Shipper:   fx.Create(),
 		ShipperId: userSetID,
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -780,6 +810,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testCreate(t *testing.T) {
 			Site:   fx.Create(parent),
 			SiteId: userSetID,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -800,11 +832,15 @@ func (fx *FreightServiceSiteTestSuiteConfig) testCreate(t *testing.T) {
 			Site:   fx.Create(parent),
 			SiteId: userSetID,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetSite(fx.Context(), connect.NewRequest(&v1.GetSiteRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -820,6 +856,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testCreate(t *testing.T) {
 			Site:   fx.Create(parent),
 			SiteId: "usersetid",
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, strings.HasSuffix(msg.GetName(), "usersetid"))
@@ -1006,6 +1044,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testCreate(t *testing.T) {
 			Site:   fx.Create(parent),
 			SiteId: userSetID,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -1041,6 +1081,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetSite(fx.Context(), connect.NewRequest(&v1.GetSiteRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1075,11 +1117,15 @@ func (fx *FreightServiceSiteTestSuiteConfig) testGet(t *testing.T) {
 			Name: created.Name,
 			Etag: created.Etag,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetSite(fx.Context(), connect.NewRequest(&v1.GetSiteRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, deleted, protocmp.Transform())
@@ -1152,6 +1198,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testBatchGet(t *testing.T) {
 					created02.Name,
 				},
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, batchGetResp != nil)
 			response := batchGetResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1210,6 +1258,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testBatchGet(t *testing.T) {
 						order[2].GetName(),
 					},
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, batchGetResp != nil)
 				response := batchGetResp.Msg
 				assert.NilError(t, err)
 				assert.DeepEqual(t, order, response.Sites, protocmp.Transform())
@@ -1227,6 +1277,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testBatchGet(t *testing.T) {
 					created00.Name,
 				},
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, batchGetResp != nil)
 			response := batchGetResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1277,6 +1329,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateSite(fx.Context(), connect.NewRequest(&v1.UpdateSiteRequest{
 			Site: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -1290,11 +1344,15 @@ func (fx *FreightServiceSiteTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateSite(fx.Context(), connect.NewRequest(&v1.UpdateSiteRequest{
 			Site: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetSite(fx.Context(), connect.NewRequest(&v1.GetSiteRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -1314,6 +1372,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testUpdate(t *testing.T) {
 				},
 			},
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, originalCreateTime, updated.CreateTime, protocmp.Transform())
@@ -1344,6 +1404,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateSite(fx.Context(), connect.NewRequest(&v1.UpdateSiteRequest{
 			Site: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -1473,6 +1535,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1493,6 +1557,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1505,6 +1571,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1521,6 +1589,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Sites))
@@ -1556,6 +1626,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1589,6 +1661,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Sites...)
@@ -1666,6 +1740,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) testDelete(t *testing.T) {
 			Name: created.Name,
 			Etag: created.Etag,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1737,6 +1813,8 @@ func (fx *FreightServiceSiteTestSuiteConfig) create(t *testing.T, parent string)
 		Site:   fx.Create(parent),
 		SiteId: userSetID,
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created

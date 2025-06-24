@@ -162,6 +162,8 @@ func (fx *GSuiteAddOnsAuthorizationTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetAuthorization(fx.Context(), connect.NewRequest(&gsuiteaddonspb.GetAuthorizationRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -267,11 +269,15 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:     parent,
 			Deployment: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetDeployment(fx.Context(), connect.NewRequest(&gsuiteaddonspb.GetDeploymentRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -355,6 +361,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:     parent,
 			Deployment: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -390,6 +398,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetDeployment(fx.Context(), connect.NewRequest(&gsuiteaddonspb.GetDeploymentRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -466,6 +476,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -486,6 +498,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -498,6 +512,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -514,6 +530,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Deployments))
@@ -548,6 +566,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -581,6 +601,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Deployments...)
@@ -653,6 +675,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteDeployment(fx.Context(), connect.NewRequest(&gsuiteaddonspb.DeleteDeploymentRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -717,6 +741,8 @@ func (fx *GSuiteAddOnsDeploymentTestSuiteConfig) create(t *testing.T, parent str
 		Parent:     parent,
 		Deployment: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -781,6 +807,8 @@ func (fx *GSuiteAddOnsInstallStatusTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetInstallStatus(fx.Context(), connect.NewRequest(&gsuiteaddonspb.GetInstallStatusRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())

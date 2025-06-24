@@ -231,6 +231,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:   parent,
 			Artifact: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -246,11 +248,15 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:   parent,
 			Artifact: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetArtifact(fx.Context(), connect.NewRequest(&aiplatformpb.GetArtifactRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -264,6 +270,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:   parent,
 			Artifact: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -299,6 +307,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetArtifact(fx.Context(), connect.NewRequest(&aiplatformpb.GetArtifactRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -360,6 +370,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateArtifact(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateArtifactRequest{
 			Artifact: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -373,11 +385,15 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateArtifact(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateArtifactRequest{
 			Artifact: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetArtifact(fx.Context(), connect.NewRequest(&aiplatformpb.GetArtifactRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -408,6 +424,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateArtifact(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateArtifactRequest{
 			Artifact: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -493,6 +511,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -513,6 +533,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -525,6 +547,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -541,6 +565,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Artifacts))
@@ -575,6 +601,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -608,6 +636,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Artifacts...)
@@ -680,6 +710,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteArtifact(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteArtifactRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -744,6 +776,8 @@ func (fx *MetadataServiceArtifactTestSuiteConfig) create(t *testing.T, parent st
 		Parent:   parent,
 		Artifact: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -815,6 +849,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:  parent,
 			Context: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -830,11 +866,15 @@ func (fx *MetadataServiceContextTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:  parent,
 			Context: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetContext(fx.Context(), connect.NewRequest(&aiplatformpb.GetContextRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -848,6 +888,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:  parent,
 			Context: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -883,6 +925,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetContext(fx.Context(), connect.NewRequest(&aiplatformpb.GetContextRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -944,6 +988,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateContext(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateContextRequest{
 			Context: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -957,11 +1003,15 @@ func (fx *MetadataServiceContextTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateContext(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateContextRequest{
 			Context: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetContext(fx.Context(), connect.NewRequest(&aiplatformpb.GetContextRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -992,6 +1042,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateContext(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateContextRequest{
 			Context: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -1077,6 +1129,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1097,6 +1151,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1109,6 +1165,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1125,6 +1183,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Contexts))
@@ -1159,6 +1219,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1192,6 +1254,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Contexts...)
@@ -1264,6 +1328,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteContext(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteContextRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1328,6 +1394,8 @@ func (fx *MetadataServiceContextTestSuiteConfig) create(t *testing.T, parent str
 		Parent:  parent,
 		Context: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -1399,6 +1467,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:    parent,
 			Execution: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -1414,11 +1484,15 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:    parent,
 			Execution: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetExecution(fx.Context(), connect.NewRequest(&aiplatformpb.GetExecutionRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -1432,6 +1506,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:    parent,
 			Execution: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		created := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, created.Etag != "")
@@ -1467,6 +1543,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetExecution(fx.Context(), connect.NewRequest(&aiplatformpb.GetExecutionRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1528,6 +1606,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateExecution(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateExecutionRequest{
 			Execution: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.UpdateTime.AsTime().After(created.UpdateTime.AsTime()))
@@ -1541,11 +1621,15 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateExecution(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateExecutionRequest{
 			Execution: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetExecution(fx.Context(), connect.NewRequest(&aiplatformpb.GetExecutionRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -1576,6 +1660,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateExecution(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateExecutionRequest{
 			Execution: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -1661,6 +1747,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1681,6 +1769,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1693,6 +1783,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1709,6 +1801,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Executions))
@@ -1743,6 +1837,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1776,6 +1872,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Executions...)
@@ -1848,6 +1946,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteExecution(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteExecutionRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1912,6 +2012,8 @@ func (fx *MetadataServiceExecutionTestSuiteConfig) create(t *testing.T, parent s
 		Parent:    parent,
 		Execution: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -1978,6 +2080,8 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) testCreate(t *testing.T)
 			Parent:         parent,
 			MetadataSchema: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -1993,11 +2097,15 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) testCreate(t *testing.T)
 			Parent:         parent,
 			MetadataSchema: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetMetadataSchema(fx.Context(), connect.NewRequest(&aiplatformpb.GetMetadataSchemaRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -2055,6 +2163,8 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetMetadataSchema(fx.Context(), connect.NewRequest(&aiplatformpb.GetMetadataSchemaRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -2131,6 +2241,8 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -2151,6 +2263,8 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -2163,6 +2277,8 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -2179,6 +2295,8 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.MetadataSchemas))
@@ -2219,6 +2337,8 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.MetadataSchemas...)
@@ -2273,6 +2393,8 @@ func (fx *MetadataServiceMetadataSchemaTestSuiteConfig) create(t *testing.T, par
 		Parent:         parent,
 		MetadataSchema: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -2383,6 +2505,8 @@ func (fx *MetadataServiceMetadataStoreTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetMetadataStore(fx.Context(), connect.NewRequest(&aiplatformpb.GetMetadataStoreRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -2459,6 +2583,8 @@ func (fx *MetadataServiceMetadataStoreTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -2479,6 +2605,8 @@ func (fx *MetadataServiceMetadataStoreTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -2491,6 +2619,8 @@ func (fx *MetadataServiceMetadataStoreTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -2507,6 +2637,8 @@ func (fx *MetadataServiceMetadataStoreTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.MetadataStores))
@@ -2541,6 +2673,8 @@ func (fx *MetadataServiceMetadataStoreTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -2574,6 +2708,8 @@ func (fx *MetadataServiceMetadataStoreTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.MetadataStores...)
@@ -2646,6 +2782,8 @@ func (fx *MetadataServiceMetadataStoreTestSuiteConfig) testDelete(t *testing.T) 
 		deleteResp, err := fx.Service().DeleteMetadataStore(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteMetadataStoreRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted

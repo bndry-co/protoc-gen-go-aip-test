@@ -219,6 +219,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.GetEndpointRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -280,11 +282,15 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateEndpointRequest{
 			Endpoint: created,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.GetEndpointRequest{
 			Name: updated.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, updated, persisted, protocmp.Transform())
@@ -304,6 +310,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testUpdate(t *testing.T) {
 				},
 			},
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, originalCreateTime, updated.CreateTime, protocmp.Transform())
@@ -334,6 +342,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testUpdate(t *testing.T) {
 		updateResp, err := fx.Service().UpdateEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateEndpointRequest{
 			Endpoint: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, updated.Etag != created.Etag)
@@ -482,6 +492,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -502,6 +514,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -514,6 +528,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -530,6 +546,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Endpoints))
@@ -564,6 +582,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -597,6 +617,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Endpoints...)
@@ -669,6 +691,8 @@ func (fx *EndpointServiceEndpointTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteEndpoint(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteEndpointRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted

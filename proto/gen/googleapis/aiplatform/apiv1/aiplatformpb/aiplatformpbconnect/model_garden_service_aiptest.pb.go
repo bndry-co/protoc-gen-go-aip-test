@@ -113,6 +113,8 @@ func (fx *ModelGardenServicePublisherModelTestSuiteConfig) testGet(t *testing.T)
 		getResp, err := fx.Service().GetPublisherModel(fx.Context(), connect.NewRequest(&aiplatformpb.GetPublisherModelRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())

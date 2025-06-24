@@ -185,6 +185,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetFeature(fx.Context(), connect.NewRequest(&aiplatformpb.GetFeatureRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -261,6 +263,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testUpdate(t *testing.T)
 		updateResp, err := fx.Service().UpdateFeature(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateFeatureRequest{
 			Feature: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		_ = updated
@@ -346,6 +350,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -366,6 +372,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -378,6 +386,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -394,6 +404,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.Features))
@@ -428,6 +440,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -461,6 +475,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.Features...)
@@ -533,6 +549,8 @@ func (fx *FeatureRegistryServiceFeatureTestSuiteConfig) testDelete(t *testing.T)
 		deleteResp, err := fx.Service().DeleteFeature(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteFeatureRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -734,6 +752,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testGet(t *testing.
 		getResp, err := fx.Service().GetFeatureGroup(fx.Context(), connect.NewRequest(&aiplatformpb.GetFeatureGroupRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -810,6 +830,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testUpdate(t *testi
 		updateResp, err := fx.Service().UpdateFeatureGroup(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateFeatureGroupRequest{
 			FeatureGroup: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		_ = updated
@@ -920,6 +942,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testList(t *testing
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -940,6 +964,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testList(t *testing
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -952,6 +978,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testList(t *testing
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -968,6 +996,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testList(t *testing
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.FeatureGroups))
@@ -1002,6 +1032,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testList(t *testing
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1035,6 +1067,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testList(t *testing
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.FeatureGroups...)
@@ -1107,6 +1141,8 @@ func (fx *FeatureRegistryServiceFeatureGroupTestSuiteConfig) testDelete(t *testi
 		deleteResp, err := fx.Service().DeleteFeatureGroup(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteFeatureGroupRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted

@@ -282,6 +282,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testCreate(t *testing.T) 
 			Parent:             parent,
 			BatchPredictionJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -297,11 +299,15 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testCreate(t *testing.T) 
 			Parent:             parent,
 			BatchPredictionJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetBatchPredictionJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetBatchPredictionJobRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -652,6 +658,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetBatchPredictionJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetBatchPredictionJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -728,6 +736,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -748,6 +758,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -760,6 +772,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -776,6 +790,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.BatchPredictionJobs))
@@ -810,6 +826,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -843,6 +861,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.BatchPredictionJobs...)
@@ -915,6 +935,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) testDelete(t *testing.T) 
 		deleteResp, err := fx.Service().DeleteBatchPredictionJob(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteBatchPredictionJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -967,6 +989,8 @@ func (fx *JobServiceBatchPredictionJobTestSuiteConfig) create(t *testing.T, pare
 		Parent:             parent,
 		BatchPredictionJob: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -1034,6 +1058,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:    parent,
 			CustomJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -1049,11 +1075,15 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:    parent,
 			CustomJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetCustomJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetCustomJobRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -1256,6 +1286,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetCustomJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetCustomJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1332,6 +1364,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1352,6 +1386,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1364,6 +1400,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1380,6 +1418,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.CustomJobs))
@@ -1414,6 +1454,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1447,6 +1489,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.CustomJobs...)
@@ -1519,6 +1563,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteCustomJob(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteCustomJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1571,6 +1617,8 @@ func (fx *JobServiceCustomJobTestSuiteConfig) create(t *testing.T, parent string
 		Parent:    parent,
 		CustomJob: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -1638,6 +1686,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:          parent,
 			DataLabelingJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -1653,11 +1703,15 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:          parent,
 			DataLabelingJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetDataLabelingJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetDataLabelingJobRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -1832,6 +1886,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetDataLabelingJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetDataLabelingJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1908,6 +1964,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1928,6 +1986,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1940,6 +2000,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1956,6 +2018,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.DataLabelingJobs))
@@ -1990,6 +2054,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -2023,6 +2089,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.DataLabelingJobs...)
@@ -2095,6 +2163,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteDataLabelingJob(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteDataLabelingJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -2147,6 +2217,8 @@ func (fx *JobServiceDataLabelingJobTestSuiteConfig) create(t *testing.T, parent 
 		Parent:          parent,
 		DataLabelingJob: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -2214,6 +2286,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testCreate(t *testin
 			Parent:                  parent,
 			HyperparameterTuningJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -2229,11 +2303,15 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testCreate(t *testin
 			Parent:                  parent,
 			HyperparameterTuningJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetHyperparameterTuningJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetHyperparameterTuningJobRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -2516,6 +2594,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testGet(t *testing.T
 		getResp, err := fx.Service().GetHyperparameterTuningJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetHyperparameterTuningJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -2592,6 +2672,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testList(t *testing.
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -2612,6 +2694,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testList(t *testing.
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -2624,6 +2708,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testList(t *testing.
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -2640,6 +2726,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testList(t *testing.
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.HyperparameterTuningJobs))
@@ -2674,6 +2762,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testList(t *testing.
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -2707,6 +2797,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testList(t *testing.
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.HyperparameterTuningJobs...)
@@ -2779,6 +2871,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) testDelete(t *testin
 		deleteResp, err := fx.Service().DeleteHyperparameterTuningJob(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteHyperparameterTuningJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -2831,6 +2925,8 @@ func (fx *JobServiceHyperparameterTuningJobTestSuiteConfig) create(t *testing.T,
 		Parent:                  parent,
 		HyperparameterTuningJob: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -2902,6 +2998,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testCreate(t *t
 			Parent:                       parent,
 			ModelDeploymentMonitoringJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -2917,11 +3015,15 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testCreate(t *t
 			Parent:                       parent,
 			ModelDeploymentMonitoringJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetModelDeploymentMonitoringJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetModelDeploymentMonitoringJobRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -3127,6 +3229,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testGet(t *test
 		getResp, err := fx.Service().GetModelDeploymentMonitoringJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetModelDeploymentMonitoringJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -3418,6 +3522,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testList(t *tes
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -3438,6 +3544,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testList(t *tes
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -3450,6 +3558,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testList(t *tes
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -3466,6 +3576,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testList(t *tes
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.ModelDeploymentMonitoringJobs))
@@ -3500,6 +3612,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testList(t *tes
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -3533,6 +3647,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testList(t *tes
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.ModelDeploymentMonitoringJobs...)
@@ -3605,6 +3721,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) testDelete(t *t
 		deleteResp, err := fx.Service().DeleteModelDeploymentMonitoringJob(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteModelDeploymentMonitoringJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -3657,6 +3775,8 @@ func (fx *JobServiceModelDeploymentMonitoringJobTestSuiteConfig) create(t *testi
 		Parent:                       parent,
 		ModelDeploymentMonitoringJob: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -3724,6 +3844,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent: parent,
 			NasJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -3739,11 +3861,15 @@ func (fx *JobServiceNasJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent: parent,
 			NasJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetNasJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetNasJobRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -4090,6 +4216,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetNasJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetNasJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -4166,6 +4294,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -4186,6 +4316,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -4198,6 +4330,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -4214,6 +4348,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.NasJobs))
@@ -4248,6 +4384,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -4281,6 +4419,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.NasJobs...)
@@ -4353,6 +4493,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeleteNasJob(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteNasJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -4405,6 +4547,8 @@ func (fx *JobServiceNasJobTestSuiteConfig) create(t *testing.T, parent string) *
 		Parent: parent,
 		NasJob: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -4470,6 +4614,8 @@ func (fx *JobServiceNasTrialDetailTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetNasTrialDetail(fx.Context(), connect.NewRequest(&aiplatformpb.GetNasTrialDetailRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -4546,6 +4692,8 @@ func (fx *JobServiceNasTrialDetailTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -4566,6 +4714,8 @@ func (fx *JobServiceNasTrialDetailTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -4578,6 +4728,8 @@ func (fx *JobServiceNasTrialDetailTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -4594,6 +4746,8 @@ func (fx *JobServiceNasTrialDetailTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.NasTrialDetails))
@@ -4634,6 +4788,8 @@ func (fx *JobServiceNasTrialDetailTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.NasTrialDetails...)

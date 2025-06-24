@@ -252,6 +252,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testG
 		getResp, err := fx.Service().GetFeatureOnlineStore(fx.Context(), connect.NewRequest(&aiplatformpb.GetFeatureOnlineStoreRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -328,6 +330,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testU
 		updateResp, err := fx.Service().UpdateFeatureOnlineStore(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateFeatureOnlineStoreRequest{
 			FeatureOnlineStore: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		_ = updated
@@ -476,6 +480,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testL
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -496,6 +502,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testL
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -508,6 +516,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testL
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -524,6 +534,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testL
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.FeatureOnlineStores))
@@ -558,6 +570,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testL
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -591,6 +605,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testL
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.FeatureOnlineStores...)
@@ -663,6 +679,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureOnlineStoreTestSuiteConfig) testD
 		deleteResp, err := fx.Service().DeleteFeatureOnlineStore(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteFeatureOnlineStoreRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -856,6 +874,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testGet(t *t
 		getResp, err := fx.Service().GetFeatureView(fx.Context(), connect.NewRequest(&aiplatformpb.GetFeatureViewRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -932,6 +952,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testUpdate(t
 		updateResp, err := fx.Service().UpdateFeatureView(fx.Context(), connect.NewRequest(&aiplatformpb.UpdateFeatureViewRequest{
 			FeatureView: msg,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, updateResp != nil)
 		updated := updateResp.Msg
 		assert.NilError(t, err)
 		_ = updated
@@ -1080,6 +1102,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testList(t *
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1100,6 +1124,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testList(t *
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1112,6 +1138,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testList(t *
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1128,6 +1156,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testList(t *
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.FeatureViews))
@@ -1162,6 +1192,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testList(t *
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1195,6 +1227,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testList(t *
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.FeatureViews...)
@@ -1267,6 +1301,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewTestSuiteConfig) testDelete(t
 		deleteResp, err := fx.Service().DeleteFeatureView(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteFeatureViewRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1379,6 +1415,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewSyncTestSuiteConfig) testGet(
 		getResp, err := fx.Service().GetFeatureViewSync(fx.Context(), connect.NewRequest(&aiplatformpb.GetFeatureViewSyncRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1455,6 +1493,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewSyncTestSuiteConfig) testList
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1475,6 +1515,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewSyncTestSuiteConfig) testList
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1487,6 +1529,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewSyncTestSuiteConfig) testList
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1503,6 +1547,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewSyncTestSuiteConfig) testList
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.FeatureViewSyncs))
@@ -1543,6 +1589,8 @@ func (fx *FeatureOnlineStoreAdminServiceFeatureViewSyncTestSuiteConfig) testList
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.FeatureViewSyncs...)

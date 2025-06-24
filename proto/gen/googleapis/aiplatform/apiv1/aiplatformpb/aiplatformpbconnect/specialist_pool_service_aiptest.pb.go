@@ -182,6 +182,8 @@ func (fx *SpecialistPoolServiceSpecialistPoolTestSuiteConfig) testGet(t *testing
 		getResp, err := fx.Service().GetSpecialistPool(fx.Context(), connect.NewRequest(&aiplatformpb.GetSpecialistPoolRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -359,6 +361,8 @@ func (fx *SpecialistPoolServiceSpecialistPoolTestSuiteConfig) testList(t *testin
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -379,6 +383,8 @@ func (fx *SpecialistPoolServiceSpecialistPoolTestSuiteConfig) testList(t *testin
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -391,6 +397,8 @@ func (fx *SpecialistPoolServiceSpecialistPoolTestSuiteConfig) testList(t *testin
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -407,6 +415,8 @@ func (fx *SpecialistPoolServiceSpecialistPoolTestSuiteConfig) testList(t *testin
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.SpecialistPools))
@@ -441,6 +451,8 @@ func (fx *SpecialistPoolServiceSpecialistPoolTestSuiteConfig) testList(t *testin
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -474,6 +486,8 @@ func (fx *SpecialistPoolServiceSpecialistPoolTestSuiteConfig) testList(t *testin
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.SpecialistPools...)
@@ -546,6 +560,8 @@ func (fx *SpecialistPoolServiceSpecialistPoolTestSuiteConfig) testDelete(t *test
 		deleteResp, err := fx.Service().DeleteSpecialistPool(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteSpecialistPoolRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted

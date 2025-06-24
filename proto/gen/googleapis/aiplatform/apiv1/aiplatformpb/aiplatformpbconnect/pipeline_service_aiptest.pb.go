@@ -145,6 +145,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:      parent,
 			PipelineJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -160,11 +162,15 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testCreate(t *testing.T) {
 			Parent:      parent,
 			PipelineJob: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetPipelineJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetPipelineJobRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -259,6 +265,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testGet(t *testing.T) {
 		getResp, err := fx.Service().GetPipelineJob(fx.Context(), connect.NewRequest(&aiplatformpb.GetPipelineJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -335,6 +343,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -355,6 +365,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -367,6 +379,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -383,6 +397,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.PipelineJobs))
@@ -417,6 +433,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testList(t *testing.T) {
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -450,6 +468,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testList(t *testing.T) {
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.PipelineJobs...)
@@ -522,6 +542,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) testDelete(t *testing.T) {
 		deleteResp, err := fx.Service().DeletePipelineJob(fx.Context(), connect.NewRequest(&aiplatformpb.DeletePipelineJobRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -574,6 +596,8 @@ func (fx *PipelineServicePipelineJobTestSuiteConfig) create(t *testing.T, parent
 		Parent:      parent,
 		PipelineJob: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
@@ -641,6 +665,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testCreate(t *testing.
 			Parent:           parent,
 			TrainingPipeline: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		assert.Check(t, msg.CreateTime != nil)
@@ -656,11 +682,15 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testCreate(t *testing.
 			Parent:           parent,
 			TrainingPipeline: fx.Create(parent),
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, createResp != nil)
 		msg := createResp.Msg
 		assert.NilError(t, err)
 		getResp, err := fx.Service().GetTrainingPipeline(fx.Context(), connect.NewRequest(&aiplatformpb.GetTrainingPipelineRequest{
 			Name: msg.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		persisted := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, persisted, protocmp.Transform())
@@ -1075,6 +1105,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testGet(t *testing.T) 
 		getResp, err := fx.Service().GetTrainingPipeline(fx.Context(), connect.NewRequest(&aiplatformpb.GetTrainingPipelineRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, getResp != nil)
 		msg := getResp.Msg
 		assert.NilError(t, err)
 		assert.DeepEqual(t, msg, created, protocmp.Transform())
@@ -1151,6 +1183,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testList(t *testing.T)
 				Parent:   parent,
 				PageSize: 999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1171,6 +1205,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testList(t *testing.T)
 				Parent:   parent,
 				PageSize: resourcesCount,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Equal(t, "", response.NextPageToken)
@@ -1183,6 +1219,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testList(t *testing.T)
 				Parent:   parent,
 				PageSize: resourcesCount - 1,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.Check(t, response.NextPageToken != "")
@@ -1199,6 +1237,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testList(t *testing.T)
 					PageSize:  1,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				response := listResp.Msg
 				assert.NilError(t, err)
 				assert.Equal(t, 1, len(response.TrainingPipelines))
@@ -1233,6 +1273,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testList(t *testing.T)
 				Parent:   parent,
 				PageSize: 9999,
 			}))
+			assert.NilError(t, err)
+			assert.Check(t, listResp != nil)
 			response := listResp.Msg
 			assert.NilError(t, err)
 			assert.DeepEqual(
@@ -1266,6 +1308,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testList(t *testing.T)
 					PageSize:  0,
 					PageToken: nextPageToken,
 				}))
+				assert.NilError(t, err)
+				assert.Check(t, listResp != nil)
 				page := listResp.Msg
 				assert.NilError(t, err)
 				msgs = append(msgs, page.TrainingPipelines...)
@@ -1338,6 +1382,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) testDelete(t *testing.
 		deleteResp, err := fx.Service().DeleteTrainingPipeline(fx.Context(), connect.NewRequest(&aiplatformpb.DeleteTrainingPipelineRequest{
 			Name: created.Name,
 		}))
+		assert.NilError(t, err)
+		assert.Check(t, deleteResp != nil)
 		deleted := deleteResp.Msg
 		assert.NilError(t, err)
 		_ = deleted
@@ -1390,6 +1436,8 @@ func (fx *PipelineServiceTrainingPipelineTestSuiteConfig) create(t *testing.T, p
 		Parent:           parent,
 		TrainingPipeline: fx.Create(parent),
 	}))
+	assert.NilError(t, err)
+	assert.Check(t, createResp != nil)
 	created := createResp.Msg
 	assert.NilError(t, err)
 	return created
