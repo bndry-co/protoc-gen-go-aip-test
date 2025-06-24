@@ -61,106 +61,32 @@ jobs:
         run: |
           git push origin connectrpc --force-with-lease
       
-      - name: Create branch for conflict notification
+      - name: Fail workflow with helpful message
         if: steps.rebase.outputs.rebase_success != 'true' || steps.ci_checks.outputs.ci_success != 'true'
         run: |
           # Clean up any ongoing rebase
           git rebase --abort || true
           git reset --hard HEAD || true
           
-          CONFLICT_BRANCH="sync-conflict-$(date +%Y%m%d-%H%M%S)"
-          git checkout -b $CONFLICT_BRANCH master
-          git push origin $CONFLICT_BRANCH
-          echo "CONFLICT_BRANCH=$CONFLICT_BRANCH" >> $GITHUB_ENV
+          if [ "${{ steps.rebase.outputs.rebase_success }}" != "true" ]; then
+            echo "❌ UPSTREAM SYNC FAILED: Rebase conflicts detected"
+            echo ""
+            echo "Manual steps required:"
+            echo "1. git checkout connectrpc"
+            echo "2. git rebase master"
+            echo "3. Resolve conflicts manually"
+            echo "4. make (verify CI passes)"
+            echo "5. git push origin connectrpc --force-with-lease"
+            exit 1
+          elif [ "${{ steps.ci_checks.outputs.ci_success }}" != "true" ]; then
+            echo "❌ UPSTREAM SYNC FAILED: CI checks failed after rebase"
+            echo ""
+            echo "Manual steps required:"
+            echo "1. git checkout connectrpc"
+            echo "2. Fix any issues causing CI failures"
+            echo "3. make (verify CI passes)"
+            echo "4. git push origin connectrpc --force-with-lease"
+            exit 1
+          fi
       
-      - name: Create PR for manual intervention
-        if: steps.rebase.outputs.rebase_success != 'true' || steps.ci_checks.outputs.ci_success != 'true'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: prs } = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              head: `${context.repo.owner}:${process.env.CONFLICT_BRANCH}`,
-              state: 'open'
-            });
-            
-            if (prs.length === 0) {
-              const rebaseSuccess = '${{ steps.rebase.outputs.rebase_success }}' === 'true';
-              const ciSuccess = '${{ steps.ci_checks.outputs.ci_success }}' === 'true';
-              
-              let title, body;
-              if (!rebaseSuccess) {
-                title = 'Manual intervention required: upstream sync conflict';
-                body = `The automated rebase of \`connectrpc\` branch onto \`master\` failed due to merge conflicts.
-                
-                **Manual steps required:**
-                1. \`git checkout connectrpc\`
-                2. \`git rebase master\`
-                3. Resolve conflicts manually
-                4. \`make\` (verify CI passes)
-                5. \`git push origin connectrpc --force-with-lease\`
-                6. Close this PR
-                
-                This PR will auto-close on the next successful sync.`;
-              } else {
-                title = 'Manual intervention required: CI checks failed after rebase';
-                body = `The automated rebase of \`connectrpc\` branch onto \`master\` succeeded, but CI checks failed.
-                
-                **Manual steps required:**
-                1. \`git checkout connectrpc\`
-                2. Fix any issues causing CI failures
-                3. \`make\` (verify CI passes)
-                4. \`git push origin connectrpc --force-with-lease\`
-                5. Close this PR
-                
-                This PR will auto-close on the next successful sync.`;
-              }
-              
-              await github.rest.pulls.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: title,
-                body: body,
-                head: process.env.CONFLICT_BRANCH,
-                base: 'connectrpc',
-                draft: true
-              });
-            }
-      
-      - name: Close existing conflict PRs on success
-        if: steps.rebase.outputs.rebase_success == 'true' && steps.ci_checks.outputs.ci_success == 'true'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: prs } = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              base: 'connectrpc',
-              state: 'open'
-            });
-            
-            const conflictPrs = prs.filter(pr => pr.head.ref.startsWith('sync-conflict-'));
-            
-            for (const pr of conflictPrs) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: pr.number,
-                body: 'Upstream sync completed successfully. Conflicts have been resolved.'
-              });
-              
-              await github.rest.pulls.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pr.number,
-                state: 'closed'
-              });
-              
-              // Delete the conflict branch
-              await github.rest.git.deleteRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: `heads/${pr.head.ref}`
-              });
-            }
+
