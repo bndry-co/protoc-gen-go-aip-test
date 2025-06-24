@@ -64,6 +64,10 @@ jobs:
       - name: Create branch for conflict notification
         if: steps.rebase.outputs.rebase_success != 'true' || steps.ci_checks.outputs.ci_success != 'true'
         run: |
+          # Clean up any ongoing rebase
+          git rebase --abort || true
+          git reset --hard HEAD || true
+          
           CONFLICT_BRANCH="sync-conflict-$(date +%Y%m%d-%H%M%S)"
           git checkout -b $CONFLICT_BRANCH master
           git push origin $CONFLICT_BRANCH
