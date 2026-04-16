@@ -5,6 +5,8 @@ on:
     - cron: '0 6 * * *' # Daily at 6 AM UTC
   workflow_dispatch: # Allow manual trigger
 
+permissions: {}
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -69,7 +71,7 @@ jobs:
           git reset --hard HEAD || true
           
           if [ "${{ steps.rebase.outputs.rebase_success }}" != "true" ]; then
-            echo "❌ UPSTREAM SYNC FAILED: Rebase conflicts detected"
+            echo "\u274c UPSTREAM SYNC FAILED: Rebase conflicts detected"
             echo ""
             echo "Manual steps required:"
             echo "1. git checkout connectrpc"
@@ -79,7 +81,7 @@ jobs:
             echo "5. git push origin connectrpc --force-with-lease"
             exit 1
           elif [ "${{ steps.ci_checks.outputs.ci_success }}" != "true" ]; then
-            echo "❌ UPSTREAM SYNC FAILED: CI checks failed after rebase"
+            echo "\u274c UPSTREAM SYNC FAILED: CI checks failed after rebase"
             echo ""
             echo "Manual steps required:"
             echo "1. git checkout connectrpc"
@@ -88,5 +90,3 @@ jobs:
             echo "4. git push origin connectrpc --force-with-lease"
             exit 1
           fi
-      
-
