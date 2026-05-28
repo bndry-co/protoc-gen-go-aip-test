@@ -6,6 +6,13 @@ import (
 	"google.golang.org/protobuf/compiler/protogen"
 )
 
+var (
+	ConnectNewRequest = protogen.GoIdent{
+		GoName:       "NewRequest",
+		GoImportPath: "connectrpc.com/connect",
+	}
+)
+
 type MethodCreate struct {
 	Resource *annotations.ResourceDescriptor
 	Method   *protogen.Method
@@ -25,7 +32,11 @@ func (m MethodCreate) Generate(f *protogen.GeneratedFile, response, err, assign 
 		f.P("}")
 	}
 
-	f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), &", m.Method.Input.GoIdent, "{") //nolint:lll
+	if response == "_" {
+		f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	} else {
+		f.P("createResp", ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	}
 	if HasParent(m.Resource) {
 		f.P("Parent: ", m.Parent, ",")
 	}
@@ -48,7 +59,12 @@ func (m MethodCreate) Generate(f *protogen.GeneratedFile, response, err, assign 
 		f.P(upper, "Id: ", userSetID, ",")
 	}
 
-	f.P("})")
+	f.P("}))")
+	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, createResp != nil)")
+		f.P(response, assign, "createResp.Msg")
+	}
 }
 
 type MethodGet struct {
@@ -59,9 +75,18 @@ type MethodGet struct {
 }
 
 func (m MethodGet) Generate(f *protogen.GeneratedFile, response, err, assign string) {
-	f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), &", m.Method.Input.GoIdent, "{") //nolint:lll
+	if response == "_" {
+		f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	} else {
+		f.P("getResp", ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	}
 	f.P("Name: ", m.Name, ",")
-	f.P("})")
+	f.P("}))")
+	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, getResp != nil)")
+		f.P(response, assign, "getResp.Msg")
+	}
 }
 
 type MethodBatchGet struct {
@@ -73,7 +98,11 @@ type MethodBatchGet struct {
 }
 
 func (m MethodBatchGet) Generate(f *protogen.GeneratedFile, response, err, assign string) {
-	f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), &", m.Method.Input.GoIdent, "{") //nolint:lll
+	if response == "_" {
+		f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	} else {
+		f.P("batchGetResp", ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	}
 	if HasParent(m.Resource) {
 		f.P("Parent: ", m.Parent, ",")
 	}
@@ -82,7 +111,12 @@ func (m MethodBatchGet) Generate(f *protogen.GeneratedFile, response, err, assig
 		f.P(name, ",")
 	}
 	f.P("},")
-	f.P("})")
+	f.P("}))")
+	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, batchGetResp != nil)")
+		f.P(response, assign, "batchGetResp.Msg")
+	}
 }
 
 type MethodUpdate struct {
@@ -120,7 +154,11 @@ func (m MethodUpdate) Generate(f *protogen.GeneratedFile, response, err, assign 
 			f.P(`msg.Etag = created.Etag // assign etag from the created resource`)
 		}
 	}
-	f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), &", m.Method.Input.GoIdent, "{") //nolint:lll
+	if response == "_" {
+		f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	} else {
+		f.P("updateResp", ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	}
 	if m.Msg != "" {
 		f.P(upper, ":", m.Msg, ",")
 	} else {
@@ -150,7 +188,12 @@ func (m MethodUpdate) Generate(f *protogen.GeneratedFile, response, err, assign 
 			f.P("Etag: msg.Etag,")
 		}
 	}
-	f.P("})")
+	f.P("}))")
+	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, updateResp != nil)")
+		f.P(response, assign, "updateResp.Msg")
+	}
 }
 
 type MethodList struct {
@@ -163,7 +206,11 @@ type MethodList struct {
 }
 
 func (m MethodList) Generate(f *protogen.GeneratedFile, response, err, assign string) {
-	f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), &", m.Method.Input.GoIdent, "{") //nolint:lll
+	if response == "_" {
+		f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	} else {
+		f.P("listResp", ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	}
 	if HasParent(m.Resource) {
 		f.P("Parent: ", m.Parent, ",")
 	}
@@ -173,7 +220,12 @@ func (m MethodList) Generate(f *protogen.GeneratedFile, response, err, assign st
 	if m.PageToken != "" {
 		f.P("PageToken: ", m.PageToken, ",")
 	}
-	f.P("})")
+	f.P("}))")
+	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, listResp != nil)")
+		f.P(response, assign, "listResp.Msg")
+	}
 }
 
 type MethodSearch struct {
@@ -186,7 +238,11 @@ type MethodSearch struct {
 }
 
 func (m MethodSearch) Generate(f *protogen.GeneratedFile, response, err, assign string) {
-	f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), &", m.Method.Input.GoIdent, "{") //nolint:lll
+	if response == "_" {
+		f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	} else {
+		f.P("searchResp", ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	}
 	if HasParent(m.Resource) {
 		f.P("Parent: ", m.Parent, ",")
 	}
@@ -196,7 +252,12 @@ func (m MethodSearch) Generate(f *protogen.GeneratedFile, response, err, assign 
 	if m.PageToken != "" {
 		f.P("PageToken: ", m.PageToken, ",")
 	}
-	f.P("})")
+	f.P("}))")
+	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, searchResp != nil)")
+		f.P(response, assign, "searchResp.Msg")
+	}
 }
 
 type MethodDelete struct {
@@ -209,7 +270,11 @@ type MethodDelete struct {
 }
 
 func (m MethodDelete) Generate(f *protogen.GeneratedFile, response, err, assign string) {
-	f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), &", m.Method.Input.GoIdent, "{") //nolint:lll
+	if response == "_" {
+		f.P(response, ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	} else {
+		f.P("deleteResp", ", ", err, " ", assign, " fx.Service().", m.Method.GoName, "(fx.Context(), ", ConnectNewRequest, "(&", m.Method.Input.GoIdent, "{") //nolint:lll
+	}
 	if m.Name != "" {
 		f.P("Name: ", m.Name, ",")
 	} else {
@@ -226,5 +291,10 @@ func (m MethodDelete) Generate(f *protogen.GeneratedFile, response, err, assign 
 			f.P("Etag: \"\",")
 		}
 	}
-	f.P("})")
+	f.P("}))")
+	if response != "_" {
+		f.P("assert.NilError(t, err)")
+		f.P("assert.Check(t, deleteResp != nil)")
+		f.P(response, assign, "deleteResp.Msg")
+	}
 }

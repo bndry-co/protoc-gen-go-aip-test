@@ -1,0 +1,92 @@
+name: Sync with Upstream
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # Daily at 6 AM UTC
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/einride/protoc-gen-go-aip-test.git || true
+          git fetch upstream
+      
+      - name: Update master branch
+        run: |
+          git checkout -B master upstream/master
+          git push origin master
+      
+      - name: Rebase connectrpc branch
+        id: rebase
+        run: |
+          git checkout connectrpc
+          git rebase master
+          echo "rebase_success=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Setup Sage
+        if: steps.rebase.outputs.rebase_success == 'true'
+        uses: einride/sage/actions/setup@master
+        with:
+          go-version: "1.23"
+      
+      - name: Run CI checks
+        if: steps.rebase.outputs.rebase_success == 'true'
+        id: ci_checks
+        run: |
+          make
+          echo "ci_success=true" >> $GITHUB_OUTPUT
+        continue-on-error: true
+      
+      - name: Push rebased connectrpc branch
+        if: steps.rebase.outputs.rebase_success == 'true' && steps.ci_checks.outputs.ci_success == 'true'
+        run: |
+          git push origin connectrpc --force-with-lease
+      
+      - name: Fail workflow with helpful message
+        if: steps.rebase.outputs.rebase_success != 'true' || steps.ci_checks.outputs.ci_success != 'true'
+        run: |
+          # Clean up any ongoing rebase
+          git rebase --abort || true
+          git reset --hard HEAD || true
+          
+          if [ "${{ steps.rebase.outputs.rebase_success }}" != "true" ]; then
+            echo "❌ UPSTREAM SYNC FAILED: Rebase conflicts detected"
+            echo ""
+            echo "Manual steps required:"
+            echo "1. git checkout connectrpc"
+            echo "2. git rebase master"
+            echo "3. Resolve conflicts manually"
+            echo "4. make (verify CI passes)"
+            echo "5. git push origin connectrpc --force-with-lease"
+            exit 1
+          elif [ "${{ steps.ci_checks.outputs.ci_success }}" != "true" ]; then
+            echo "❌ UPSTREAM SYNC FAILED: CI checks failed after rebase"
+            echo ""
+            echo "Manual steps required:"
+            echo "1. git checkout connectrpc"
+            echo "2. Fix any issues causing CI failures"
+            echo "3. make (verify CI passes)"
+            echo "4. git push origin connectrpc --force-with-lease"
+            exit 1
+          fi
+      
+

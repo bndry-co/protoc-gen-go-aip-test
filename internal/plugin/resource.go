@@ -35,10 +35,10 @@ func (r *resourceGenerator) generateFixture(f *protogen.GeneratedFile) {
 		GoName:       "Context",
 		GoImportPath: "context",
 	})
-	service := f.QualifiedGoIdent(protogen.GoIdent{
-		GoName:       r.service.GoName + "Server",
+	serviceClient := protogen.GoIdent{
+		GoName:       r.service.GoName + "Client",
 		GoImportPath: r.service.Methods[0].Input.GoIdent.GoImportPath,
-	})
+	}
 
 	f.P("type ", resourceTestSuiteConfigName(r.service.Desc, r.resource), " struct {")
 	f.P("currParent int")
@@ -46,7 +46,7 @@ func (r *resourceGenerator) generateFixture(f *protogen.GeneratedFile) {
 
 	f.P("// Service should return the service that should be tested.")
 	f.P("// The service will be used for several tests.")
-	f.P("Service", " func() ", service)
+	f.P("Service", " func() ", serviceClient.GoName)
 	f.P("// Context should return a new context.")
 	f.P("// The context will be used for several tests.")
 	f.P("Context", " func() ", context)

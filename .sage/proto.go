@@ -56,13 +56,19 @@ func (Proto) ProtocGenGoGRPC(ctx context.Context) error {
 	return err
 }
 
+func (Proto) ProtocGenConnectGo(ctx context.Context) error {
+	sg.Logger(ctx).Println("installing...")
+	_, err := sgtool.GoInstall(ctx, "connectrpc.com/connect/cmd/protoc-gen-connect-go", "v1.5.0")
+	return err
+}
+
 func (Proto) ProtocGenGoAIPTest(ctx context.Context) error {
 	sg.Logger(ctx).Println("building binary...")
 	return sg.Command(ctx, "go", "build", "-o", sg.FromBinDir("protoc-gen-go-aip-test"), ".").Run()
 }
 
 func (Proto) BufGenerate(ctx context.Context) error {
-	sg.Deps(ctx, Proto.ProtocGenGo, Proto.ProtocGenGoGRPC, Proto.ProtocGenGoAIPTest)
+	sg.Deps(ctx, Proto.ProtocGenGo, Proto.ProtocGenGoGRPC, Proto.ProtocGenConnectGo, Proto.ProtocGenGoAIPTest)
 	sg.Logger(ctx).Println("generating proto stubs...")
 	cmd := sgbuf.Command(ctx, "generate", "--template", "buf.gen.yaml", "--path", "einride")
 	cmd.Dir = sg.FromGitRoot("proto")
@@ -70,7 +76,7 @@ func (Proto) BufGenerate(ctx context.Context) error {
 }
 
 func (Proto) BufGenerateGoogleapis(ctx context.Context) error {
-	sg.Deps(ctx, Proto.ProtocGenGo, Proto.ProtocGenGoGRPC, Proto.ProtocGenGoAIPTest)
+	sg.Deps(ctx, Proto.ProtocGenGo, Proto.ProtocGenGoGRPC, Proto.ProtocGenConnectGo, Proto.ProtocGenGoAIPTest)
 	sg.Logger(ctx).Println("generating example proto stubs...")
 	cmd := sgbuf.Command(
 		ctx,

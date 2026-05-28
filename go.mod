@@ -3,9 +3,15 @@ module github.com/einride/protoc-gen-go-aip-test
 go 1.23
 
 require (
+	cloud.google.com/go/aiplatform v1.68.0
+	cloud.google.com/go/area120 v0.9.1
+	cloud.google.com/go/gsuiteaddons v1.7.1
 	cloud.google.com/go/iam v1.2.1
 	cloud.google.com/go/longrunning v0.6.3
-	cloud.google.com/go/spanner v1.73.0
+	cloud.google.com/go/pubsub v1.44.0
+	cloud.google.com/go/scheduler v1.11.1
+	cloud.google.com/go/spanner v1.70.0
+	connectrpc.com/connect v1.18.1
 	github.com/google/go-cmp v0.6.0
 	github.com/stoewer/go-strcase v1.3.0
 	go.einride.tech/aip v0.68.1
